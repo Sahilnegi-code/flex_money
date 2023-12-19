@@ -1,0 +1,6 @@
+#first create package.json 
+npm init
+#install express 
+npm i express
+#Nodemon is a command-line tool that helps with the speedy development of Node. js applications.  
+npm i nodemon

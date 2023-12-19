@@ -1,0 +1,29 @@
+.bg-image{
+    background-image: url('../../public/images/yoga.jpg');
+    background-position: center;
+    background-size: cover;
+
+}
+.form-box{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    }
+.form-container{
+    border-radius: 10px;
+    background-color: white ;
+   padding: 20px;
+   display: flex;
+   justify-content: space-between;
+}
+.form-control {
+    display: inline-block;
+    width: auto;
+}
+.form-btn-container{
+    display: flex;
+    justify-content: space-between;
+
+}

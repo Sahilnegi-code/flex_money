@@ -1,6 +1,7 @@
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors')
+const mysql = require('mysql2')
+const { completePayment } =require('./Controller/paymentController'); 
 const app = express();
 app.use(cors())
 app.use(express.json());
@@ -65,8 +66,10 @@ const connection = mysql.createConnection({
 
 app.post('/paid', (req , res)=>{
     const {email , payment_status} = req.body;
-
-    connection.query(`insert into payment(   email , payment_status)  
+    const payment = completePayment();
+    console.log(email , payment_status);
+    if(payment.success){
+        connection.query(`insert into payment(   email , payment_status)  
     values (?  ,  ? )`,[  email, payment_status ]  ,
      function(err, results) {
         if(err){
@@ -77,16 +80,20 @@ app.post('/paid', (req , res)=>{
         console.log(results);
             })
     res.status(200).json("Payed successfully");
-
-    
+    }
+    else{
+        res.status(400).json("Payment Failed");
+    }        
 });
 
 app.post(('/formSubmit') , (req  , res)=>{
     const {user_name , email , age , batch_timing , Date_Of_Payment}  = req.body;
+    if (!user_name || !email || !age || !batch_timing || !Date_Of_Payment) {
+        return res.status(400).json({ error: 'Invalid data . Form has not been  Submitted.' });
+      }
     console.log(user_name , typeof user_name);
     console.log("Form-data");
-    // console.log(formData);
-    // ${user_name} , ${email} , ${age} , ${batch_timing}, ${Date_Of_payment} 
+
     connection.query(`insert into users( user_name , email , age , batch_timing, Date_Of_payment )  
     values (?  ,  ? ,  ? , ? , ? )`,[user_name , email , age , batch_timing, Date_Of_Payment ]  ,
      function(err, results) {
